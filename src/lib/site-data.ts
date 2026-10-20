@@ -47,6 +47,7 @@ export interface ProjectItem {
   image: string;
   imageAlt: string;
   logo?: string;
+  websiteUrl: string;
   gallery?: { src: string; alt: string; caption: string }[];
   specs?: { label: string; value: string }[];
 }
@@ -71,6 +72,7 @@ export const projectsData: ProjectItem[] = [
     image: "/img/proyectos/villas-de-la-aurora.webp",
     imageAlt: "Fraccionamiento residencial Villas de la Aurora en Irapuato, Guanajuato",
     logo: "/img/proyectos/villasdelaaurora-logo-cropped.png",
+    websiteUrl: "https://www.macadamdesarrollos.com/villas-de-la-aurora",
     specs: [
       { label: "Tipo de proyecto", value: "Fraccionamiento residencial" },
       { label: "Modelos", value: "2 modelos de vivienda" },
@@ -97,6 +99,7 @@ export const projectsData: ProjectItem[] = [
     image: "/img/proyectos/aguanueva-planos.webp",
     imageAlt: "Plano de lotificación y proyecto industrial Agua Nueva en Saltillo",
     logo: "/img/logo-o.png",
+    websiteUrl: "https://www.macadamdesarrollos.com/agua-nueva",
     specs: [
       { label: "Superficie total", value: "99,886 m²" },
       { label: "Servicios disponibles", value: "Tomas de agua y luz disponibles" },
@@ -140,6 +143,7 @@ export const projectsData: ProjectItem[] = [
     image: "/img/proyectos/cerro-llano.webp",
     imageAlt: "Vista aérea del fraccionamiento campestre Cerrollano en Saltillo, Coahuila",
     logo: "/img/proyectos/cerro-llano-logo.webp",
+    websiteUrl: "https://www.macadamdesarrollos.com/cerro-llano",
     specs: [
       { label: "Tipo de proyecto", value: "Fraccionamiento campestre" },
       { label: "Ubicación", value: "Ejido Santa Teresa de los Muchachos, Coahuila" },
@@ -147,11 +151,11 @@ export const projectsData: ProjectItem[] = [
     ],
   },
   {
-    id: "terrenosenventa",
-    slug: "terrenosenventa",
-    name: "Terrenos en Venta",
+    id: "neopark",
+    slug: "neopark",
+    name: "Neopark",
     category: "Industriales, residenciales y campestres",
-    badge: "Catálogo de terrenos",
+    badge: "Parque Industrial",
     location: "Irapuato, Guanajuato y diferentes partes de la República Mexicana",
     shortDescription:
       "Terrenos industriales en venta en Parque industrial en Irapuato Guanajuato.",
@@ -161,12 +165,13 @@ export const projectsData: ProjectItem[] = [
       "En nuestro equipo, contamos con expertos en bienes raíces que estarán dispuestos a ofrecerte la orientación que necesitas para tomar la mejor decisión. Nos aseguramos de que el terreno que adquieras sea el adecuado para el plan que tienes en mente.",
       "¡Contáctanos ahora y déjanos ayudarte a encontrar el terreno perfecto para hacer realidad tu proyecto!",
     ],
-    href: "/proyectos#terrenosenventa",
+    href: "/proyectos#neopark",
     external: false,
     ctaLabel: "Información",
     image: "/img/proyectos/terrenos-industriales-irapuato.webp",
-    imageAlt: "Terrenos industriales en venta en parque industrial en Irapuato, Guanajuato",
-    logo: "/img/logo-o.png",
+    imageAlt: "Terrenos industriales en venta en Neopark, parque industrial en Irapuato, Guanajuato",
+    logo: "/img/neopark-logo.webp",
+    websiteUrl: "https://www.macadamdesarrollos.com/neopark",
     specs: [
       { label: "Vocación", value: "Terrenos industriales, residenciales y campestres" },
       { label: "Cobertura", value: "Irapuato, Guanajuato y diferentes partes de la República Mexicana" },

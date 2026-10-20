@@ -36,17 +36,17 @@ export default function ContactoPage() {
 
         <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="max-w-2xl pb-20 pt-32 sm:pb-28 sm:pt-36 lg:pb-32 lg:pt-44">
-            <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+            <p className="hero-enter-tag flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
               <span
                 aria-hidden="true"
                 className="rule-brand h-px w-8 rounded-full"
               />
               Atención directa · Constructora Macadam
             </p>
-            <h1 className="mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-balance text-white sm:text-5xl">
+            <h1 className="hero-enter-title mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-balance text-white sm:text-5xl">
               Contacto
             </h1>
-            <p className="mt-4 text-lg leading-relaxed text-ink-200 sm:text-xl">
+            <p className="hero-enter-desc mt-4 text-lg leading-relaxed text-ink-200 sm:text-xl">
               Envíanos un mensaje a través de nuestro formulario de contacto o
               comunícate con nosotros y te atenderemos muy pronto.
             </p>
@@ -54,19 +54,21 @@ export default function ContactoPage() {
         </div>
       </section>
 
-      <ContactSection
-        id="formulario-contacto"
-        eyebrow="Contacto"
-        heading="Contáctanos Ahora"
-        description="Envíanos un mensaje a través del siguiente formulario de contacto, y te contactaremos muy pronto."
-        variant="light"
-      />
+      <div className="reveal">
+        <ContactSection
+          id="formulario-contacto"
+          eyebrow="Contacto"
+          heading="Contáctanos Ahora"
+          description="Envíanos un mensaje a través del siguiente formulario de contacto, y te contactaremos muy pronto."
+          variant="light"
+        />
+      </div>
 
       {/* UBICACIÓN EN SALTILLO */}
       <section className="bg-ink-50 py-14 sm:py-20 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:items-center lg:gap-12">
-            <div>
+            <div className="reveal-left">
               <div className="max-w-2xl">
                 <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                   <span
@@ -106,7 +108,7 @@ export default function ContactoPage() {
               </a>
             </div>
 
-            <div className="overflow-hidden rounded-3xl border border-ink-200 bg-white shadow-sm">
+            <div className="reveal-right overflow-hidden rounded-3xl border border-ink-200 bg-white shadow-sm">
               <iframe
                 src={siteConfig.contact.mapEmbedUrl}
                 title="Ubicación de Constructora Macadam en Saltillo, Coahuila"

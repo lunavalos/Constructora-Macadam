@@ -2,19 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { projectsData, siteConfig } from "@/lib/site-data";
-import { whatsappUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Proyectos – Constructora MACADAM",
   description:
-    "Conoce los proyectos residenciales, campestres e industriales de Constructora Macadam: Villas de la Aurora en Irapuato, Cerrollano en Saltillo, Terreno en venta Agua Nueva y catálogo de terrenos en venta.",
+    "Conoce los proyectos residenciales, campestres e industriales de Constructora Macadam: Villas de la Aurora en Irapuato, Cerrollano en Saltillo, Terreno en venta Agua Nueva y Neopark en Irapuato.",
 };
 
 export default function ProyectosPage() {
   const villas = projectsData.find((p) => p.id === "villas-de-la-aurora")!;
   const cerrollano = projectsData.find((p) => p.id === "cerrollano")!;
   const aguanueva = projectsData.find((p) => p.id === "aguanueva")!;
-  const terrenos = projectsData.find((p) => p.id === "terrenosenventa")!;
+  const terrenos = projectsData.find((p) => p.id === "neopark" || p.id === "terrenosenventa")!;
 
   return (
     <>
@@ -43,17 +42,17 @@ export default function ProyectosPage() {
 
         <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="max-w-2xl pb-20 pt-32 sm:pb-28 sm:pt-36 lg:pb-32 lg:pt-44">
-            <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+            <p className="hero-enter-tag flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
               <span
                 aria-hidden="true"
                 className="rule-brand h-px w-8 rounded-full"
               />
               Portafolio Constructora Macadam
             </p>
-            <h1 className="mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-balance text-white sm:text-5xl">
+            <h1 className="hero-enter-title mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-balance text-white sm:text-5xl">
               Proyectos
             </h1>
-            <p className="mt-4 text-lg leading-relaxed text-ink-200 sm:text-xl">
+            <p className="hero-enter-desc mt-4 text-lg leading-relaxed text-ink-200 sm:text-xl">
               {siteConfig.heroSubtitle}
             </p>
           </div>
@@ -67,7 +66,7 @@ export default function ProyectosPage() {
       >
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-center lg:gap-16">
-            <div>
+            <div className="reveal-left">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-brand-700">
                   {villas.category}
@@ -134,14 +133,12 @@ export default function ProyectosPage() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href={whatsappUrl(
-                    "Hola, me interesa conocer más sobre el fraccionamiento residencial Villas de la Aurora en Irapuato, Gto."
-                  )}
+                  href={villas.websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-base font-semibold text-white shadow-sm shadow-brand-950/20 transition-[color,background-color,border-color,box-shadow,transform] duration-200 hover:bg-gold-400 active:scale-[0.98]"
                 >
-                  Solicitar información
+                  Visitar sitio web del proyecto
                   <svg
                     className="h-4 w-4"
                     fill="none"
@@ -153,14 +150,14 @@ export default function ProyectosPage() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                      d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
                     />
                   </svg>
                 </a>
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-3xl border border-ink-200 bg-ink-100 shadow-lg shadow-brand-950/5">
+            <div className="reveal-right overflow-hidden rounded-3xl border border-ink-200 bg-ink-100 shadow-lg shadow-brand-950/5">
               <div className="relative aspect-[4/3] w-full">
                 <Image
                   src={villas.image}
@@ -193,7 +190,7 @@ export default function ProyectosPage() {
       <section id="cerrollano" className="bg-ink-50 py-14 sm:py-20 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-center lg:gap-16">
-            <div className="order-2 lg:order-1 overflow-hidden rounded-3xl border border-ink-200 bg-white shadow-lg shadow-brand-950/5">
+            <div className="reveal-left order-2 lg:order-1 overflow-hidden rounded-3xl border border-ink-200 bg-white shadow-lg shadow-brand-950/5">
               <div className="relative aspect-[4/3] w-full">
                 <Image
                   src={cerrollano.image}
@@ -219,7 +216,7 @@ export default function ProyectosPage() {
               </div>
             </div>
 
-            <div className="order-1 lg:order-2">
+            <div className="reveal-right order-1 lg:order-2">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center rounded-full bg-brand-950 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white">
                   {cerrollano.category}
@@ -255,14 +252,12 @@ export default function ProyectosPage() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href={whatsappUrl(
-                    "Hola, me interesa conocer más sobre el fraccionamiento campestre Cerrollano en Saltillo, Coah."
-                  )}
+                  href={cerrollano.websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-base font-semibold text-white shadow-sm shadow-brand-950/20 transition-[color,background-color,border-color,box-shadow,transform] duration-200 hover:bg-gold-400 active:scale-[0.98]"
                 >
-                  Solicitar información
+                  Visitar sitio web del proyecto
                   <svg
                     className="h-4 w-4"
                     fill="none"
@@ -274,7 +269,7 @@ export default function ProyectosPage() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                      d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
                     />
                   </svg>
                 </a>
@@ -288,7 +283,7 @@ export default function ProyectosPage() {
       <section id="aguanueva" className="bg-white py-14 sm:py-20 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
-            <div>
+            <div className="reveal-left">
               <div className="max-w-2xl">
                 <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                   <span
@@ -310,14 +305,26 @@ export default function ProyectosPage() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href={whatsappUrl(
-                    "Hola, me interesa el Terreno en venta en Agua Nueva (99,886 m²) y me gustaría agendar una visita."
-                  )}
+                  href={aguanueva.websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-base font-semibold text-white shadow-sm shadow-brand-950/20 transition-[color,background-color,border-color,box-shadow,transform] duration-200 hover:bg-gold-400 active:scale-[0.98]"
                 >
-                  Agendar visita al terreno
+                  Visitar sitio web del proyecto
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                    />
+                  </svg>
                 </a>
                 <Link
                   href="/contacto"
@@ -329,7 +336,7 @@ export default function ProyectosPage() {
             </div>
 
             {/* Ficha Técnica (macadamdesarrollos.com style) */}
-            <div className="rounded-2xl border border-ink-200 bg-ink-50 p-6 sm:p-8 self-start">
+            <div className="reveal-right rounded-2xl border border-ink-200 bg-ink-50 p-6 sm:p-8 self-start">
               <h3 className="text-sm font-semibold uppercase tracking-widest text-ink-500">
                 Ficha técnica · Agua Nueva
               </h3>
@@ -350,43 +357,47 @@ export default function ProyectosPage() {
           {/* Galería de Agua Nueva */}
           {aguanueva.gallery && (
             <ul className="mt-12 grid gap-6 sm:grid-cols-3">
-              {aguanueva.gallery.map((img) => (
-                <li key={img.src}>
-                  <figure className="h-full overflow-hidden rounded-3xl border border-ink-200 bg-ink-100">
-                    <div className="relative aspect-square w-full overflow-hidden">
-                      <Image
-                        src={img.src}
-                        alt={img.alt}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 33vw"
-                        className="object-cover transition-transform duration-500 hover:scale-105"
-                      />
-                    </div>
-                    <figcaption className="bg-white px-5 py-3.5 text-sm text-ink-600">
-                      {img.caption}
-                    </figcaption>
-                  </figure>
-                </li>
-              ))}
+              {aguanueva.gallery.map((img, idx) => {
+                const delayClass = idx === 0 ? "delay-100" : idx === 1 ? "delay-200" : "delay-300";
+                return (
+                  <li key={img.src} className={`reveal-scale ${delayClass}`}>
+                    <figure className="h-full overflow-hidden rounded-3xl border border-ink-200 bg-ink-100">
+                      <div className="relative aspect-square w-full overflow-hidden">
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          fill
+                          sizes="(max-width: 640px) 100vw, 33vw"
+                          className="object-cover transition-transform duration-500 hover:scale-105"
+                        />
+                      </div>
+                      <figcaption className="bg-white px-5 py-3.5 text-sm text-ink-600">
+                        {img.caption}
+                      </figcaption>
+                    </figure>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
       </section>
 
-      {/* 4. TERRENOS EN VENTA (#terrenosenventa) */}
+      {/* 4. NEOPARK (#neopark / #terrenosenventa) */}
       <section
-        id="terrenosenventa"
-        className="bg-ink-50 py-14 sm:py-20 lg:py-24"
+        id="neopark"
+        className="relative bg-ink-50 py-14 sm:py-20 lg:py-24"
       >
+        <span id="terrenosenventa" className="sr-only" aria-hidden="true" />
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
-            <div>
+            <div className="reveal-left">
               <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                 <span
                   aria-hidden="true"
                   className="rule-brand h-px w-8 rounded-full"
                 />
-                Catálogo nacional
+                Neopark · Parque Industrial en Irapuato
               </p>
               <h2 className="mt-3 text-3xl font-semibold text-balance text-ink-950 sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
                 ¡Tenemos el terreno ideal para tu proyecto!
@@ -400,19 +411,31 @@ export default function ProyectosPage() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href={whatsappUrl(
-                    "Hola, busco orientación sobre su catálogo de terrenos en venta (industriales, residenciales o campestres)."
-                  )}
+                  href={terrenos.websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-base font-semibold text-white shadow-sm shadow-brand-950/20 transition-[color,background-color,border-color,box-shadow,transform] duration-200 hover:bg-gold-400 active:scale-[0.98]"
                 >
-                  Consultar catálogo por WhatsApp
+                  Visitar sitio web del proyecto
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                    />
+                  </svg>
                 </a>
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-3xl border border-ink-200 bg-white shadow-lg shadow-brand-950/5">
+            <div className="reveal-right overflow-hidden rounded-3xl border border-ink-200 bg-white shadow-lg shadow-brand-950/5">
               <div className="relative aspect-[4/3] w-full">
                 <Image
                   src={terrenos.image}
@@ -422,14 +445,26 @@ export default function ProyectosPage() {
                   className="object-cover"
                 />
               </div>
+              <div className="flex items-center justify-between border-b border-ink-100 bg-white px-6 py-4">
+                {terrenos.logo && (
+                  <Image
+                    src={terrenos.logo}
+                    alt={`Logo ${terrenos.name}`}
+                    width={180}
+                    height={60}
+                    className="h-10 w-auto object-contain"
+                  />
+                )}
+                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
+                  Irapuato, Gto.
+                </span>
+              </div>
               <div className="p-6">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
-                  Bienes Raíces Macadam
+                  Neopark · Parque industrial con acceso controlado
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-ink-600">
-                  Terrenos industriales en Parque Industrial en Irapuato,
-                  Guanajuato, y terrenos residenciales y campestres en
-                  diferentes partes de la República Mexicana.
+                  Neopark es un parque industrial en La Calera, Irapuato, en pleno corredor industrial del Bajío: la zona con mayor concentración logística y manufacturera entre el centro y el norte del país.
                 </p>
               </div>
             </div>

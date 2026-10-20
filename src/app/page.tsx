@@ -27,7 +27,7 @@ export default function HomePage() {
             poster="/img/pic-banner.jpg"
             className="h-full w-full object-cover scale-105"
           >
-            <source src="/video/clip-1.webm" type="video/webm" />
+            <source src="/video/hero-section-newvid.webm" type="video/webm" />
           </video>
         </div>
         <div aria-hidden="true" className="hero-veil absolute inset-0" />
@@ -38,7 +38,7 @@ export default function HomePage() {
 
         <div className="relative mx-auto flex w-full max-w-7xl flex-1 items-center px-5 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl py-28 text-center [text-shadow:0_1px_24px_rgba(8,26,43,0.5)] sm:py-32">
-            <p className="flex items-center justify-center gap-3 text-[0.6875rem] font-semibold uppercase tracking-[0.28em] text-white sm:gap-4 sm:text-xs">
+            <p className="hero-enter-tag flex items-center justify-center gap-3 text-[0.6875rem] font-semibold uppercase tracking-[0.28em] text-white sm:gap-4 sm:text-xs">
               <span
                 aria-hidden="true"
                 className="rule-brand h-px w-8 rounded-full sm:w-12"
@@ -50,15 +50,15 @@ export default function HomePage() {
               />
             </p>
 
-            <h1 className="mt-7 text-4xl font-semibold leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
+            <h1 className="hero-enter-title mt-7 text-4xl font-semibold leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
               {siteConfig.heroTitle}
             </h1>
 
-            <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-pretty text-ink-200 sm:text-xl">
+            <p className="hero-enter-desc mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-pretty text-ink-200 sm:text-xl">
               {siteConfig.heroSubtitle}
             </p>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="hero-enter-actions mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="#contacto"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-base font-semibold text-white shadow-sm shadow-brand-950/20 transition-[color,background-color,border-color,box-shadow,transform] duration-200 hover:bg-gold-400 active:scale-[0.98]"
@@ -81,7 +81,7 @@ export default function HomePage() {
       {/* PROYECTOS SECTION */}
       <section id="proyectos" className="bg-ink-50 py-14 sm:py-20 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div className="reveal flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div className="max-w-2xl">
               <h2 className="text-3xl font-semibold text-balance text-ink-950 sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
                 Proyectos
@@ -113,7 +113,7 @@ export default function HomePage() {
           </div>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {projectsData.map((project) => {
+            {projectsData.map((project, idx) => {
               const CardWrapper = project.external ? "a" : Link;
               const wrapperProps = project.external
                 ? {
@@ -123,11 +123,20 @@ export default function HomePage() {
                   }
                 : { href: project.href };
 
+              const delayClass =
+                idx === 0
+                  ? "delay-100"
+                  : idx === 1
+                  ? "delay-200"
+                  : idx === 2
+                  ? "delay-300"
+                  : "delay-400";
+
               return (
                 <CardWrapper
                   key={project.id}
                   {...wrapperProps}
-                  className="group flex flex-col overflow-hidden rounded-3xl border border-ink-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-950/10"
+                  className={`reveal-scale ${delayClass} group flex flex-col overflow-hidden rounded-3xl border border-ink-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-950/10`}
                 >
                   <div className="relative aspect-[4/3] overflow-hidden bg-ink-100">
                     <Image
@@ -150,6 +159,8 @@ export default function HomePage() {
                           className={
                             project.id === "villas-de-la-aurora"
                               ? "h-14 w-auto max-w-[13.5rem] object-contain object-left"
+                              : project.id === "neopark"
+                              ? "max-h-12 w-auto max-w-[11rem] object-contain object-left"
                               : "max-h-10 w-auto max-w-[10.5rem] object-contain object-left"
                           }
                         />
@@ -215,7 +226,7 @@ export default function HomePage() {
       <section id="nosotros" className="bg-white py-14 sm:py-20 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
-            <div>
+            <div className="reveal-left">
               <div className="max-w-2xl">
                 <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                   <span
@@ -260,7 +271,7 @@ export default function HomePage() {
             </div>
 
             {/* Right: Video & Visual Card */}
-            <div className="relative">
+            <div className="reveal-right relative">
               <div className="overflow-hidden rounded-3xl border border-ink-200 bg-brand-950 shadow-xl shadow-brand-950/10">
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <video
@@ -310,7 +321,7 @@ export default function HomePage() {
           className="grain pointer-events-none absolute inset-0"
         />
 
-        <div className="relative mx-auto w-full max-w-5xl px-5 text-center sm:px-6 lg:px-8">
+        <div className="reveal-scale relative mx-auto w-full max-w-5xl px-5 text-center sm:px-6 lg:px-8">
           <p className="flex items-center justify-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-white">
             <span
               aria-hidden="true"
@@ -351,7 +362,7 @@ export default function HomePage() {
       {/* SERVICIOS SECTION */}
       <section id="servicios" className="bg-ink-50 py-14 sm:py-20 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div className="reveal flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div className="max-w-2xl">
               <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                 <span
@@ -391,12 +402,16 @@ export default function HomePage() {
           </div>
 
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {servicesData.map((service) => (
-              <Link
-                key={service.id}
-                href={service.href}
-                className="group flex flex-col overflow-hidden rounded-3xl border border-ink-200 bg-white p-6 sm:p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-950/10"
-              >
+            {servicesData.map((service, idx) => {
+              const delayClass =
+                idx === 0 ? "delay-100" : idx === 1 ? "delay-200" : "delay-300";
+
+              return (
+                <Link
+                  key={service.id}
+                  href={service.href}
+                  className={`reveal-scale ${delayClass} group flex flex-col overflow-hidden rounded-3xl border border-ink-200 bg-white p-6 sm:p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-950/10`}
+                >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">
                     Servicio {service.number}
@@ -442,13 +457,16 @@ export default function HomePage() {
                   </svg>
                 </span>
               </Link>
-            ))}
+            );
+          })}
           </div>
         </div>
       </section>
 
       {/* CONTACTO SECTION */}
-      <ContactSection />
+      <div className="reveal">
+        <ContactSection />
+      </div>
     </>
   );
 }

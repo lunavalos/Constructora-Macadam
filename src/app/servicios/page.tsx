@@ -40,17 +40,17 @@ export default function ServiciosPage() {
 
         <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="max-w-2xl pb-20 pt-32 sm:pb-28 sm:pt-36 lg:pb-32 lg:pt-44">
-            <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+            <p className="hero-enter-tag flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
               <span
                 aria-hidden="true"
                 className="rule-brand h-px w-8 rounded-full"
               />
               ¡Descubre cómo podemos hacer realidad el espacio de tus sueños!
             </p>
-            <h1 className="mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-balance text-white sm:text-5xl">
+            <h1 className="hero-enter-title mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-balance text-white sm:text-5xl">
               Servicios
             </h1>
-            <p className="mt-4 text-lg leading-relaxed text-ink-200 sm:text-xl">
+            <p className="hero-enter-desc mt-4 text-lg leading-relaxed text-ink-200 sm:text-xl">
               En nuestro estudio ofrecemos servicios de diseño arquitectónico,
               construcción de vivienda, diseño en 3D y renderización.
             </p>
@@ -73,7 +73,7 @@ export default function ServiciosPage() {
           >
             <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
               <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-                <div className={isEven ? "lg:order-2" : undefined}>
+                <div className={`${isEven ? "lg:order-2 reveal-right" : "reveal-left"}`}>
                   <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                     <span
                       aria-hidden="true"
@@ -105,7 +105,7 @@ export default function ServiciosPage() {
                   </div>
                 </div>
 
-                <div className={isEven ? "lg:order-1" : undefined}>
+                <div className={`${isEven ? "lg:order-1 reveal-left" : "reveal-right"}`}>
                   <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-ink-200 bg-ink-100 shadow-lg shadow-brand-950/5">
                     <Image
                       src={service.image}

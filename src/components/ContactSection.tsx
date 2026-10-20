@@ -24,22 +24,46 @@ export function ContactSection({
   const [telefono, setTelefono] = useState("");
   const [interes, setInteres] = useState("");
   const [mensaje, setMensaje] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const lines = [
-      `Hola, soy ${nombre}.`,
-      interes ? `Me interesa: ${interes}.` : "",
-      telefono ? `Teléfono: ${telefono}.` : "",
-      email ? `Correo: ${email}.` : "",
-      mensaje ? `Mensaje: ${mensaje}` : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
+    setIsSubmitting(true);
+    setStatus("idle");
+    setErrorMessage("");
 
-    setSubmitted(true);
-    window.open(whatsappUrl(lines), "_blank", "noopener,noreferrer");
+    try {
+      const res = await fetch("/api/contacto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, email, telefono, interes, mensaje }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Ocurrió un error al enviar el mensaje.");
+      }
+
+      setStatus("success");
+      setNombre("");
+      setEmail("");
+      setTelefono("");
+      setInteres("");
+      setMensaje("");
+    } catch (err: unknown) {
+      console.error("Error al enviar formulario:", err);
+      setStatus("error");
+      setErrorMessage(
+        err instanceof Error
+          ? err.message
+          : "No se pudo enviar el mensaje. Por favor intenta de nuevo o escríbenos directamente por WhatsApp."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const directWa = whatsappUrl(
@@ -360,8 +384,8 @@ export function ContactSection({
                     <option value="Cerrollano (Saltillo, Coah.)">
                       Cerrollano — Fraccionamiento campestre
                     </option>
-                    <option value="Terrenos en Venta (Irapuato / República Mexicana)">
-                      Terrenos en Venta — Industriales, residenciales y campestres
+                    <option value="Neopark (Irapuato, Gto.)">
+                      Neopark — Terrenos industriales, residenciales y campestres
                     </option>
                   </optgroup>
                 </select>
@@ -394,30 +418,124 @@ export function ContactSection({
 
               <button
                 type="submit"
-                className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-base font-semibold text-white shadow-sm shadow-brand-950/20 transition-[color,background-color,border-color,box-shadow,transform] duration-200 hover:bg-gold-400 active:scale-[0.98]"
+                disabled={isSubmitting}
+                className="inline-flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-gold-500 px-7 py-3.5 text-base font-semibold text-white shadow-sm shadow-brand-950/20 transition-[color,background-color,border-color,box-shadow,transform] duration-200 hover:bg-gold-400 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-75"
               >
-                Enviar
+                {isSubmitting ? (
+                  <>
+                    <svg
+                      className="h-5 w-5 animate-spin"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    <span>Enviando mensaje...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Enviar mensaje</span>
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                      />
+                    </svg>
+                  </>
+                )}
               </button>
 
-              {submitted && (
-                <p
+              {status === "success" && (
+                <div
+                  role="status"
                   className={
                     isLight
-                      ? "rounded-xl border border-emerald-600/30 bg-emerald-50 px-4 py-2.5 text-xs text-emerald-800"
-                      : "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-xs text-emerald-200"
+                      ? "rounded-2xl border border-emerald-600/30 bg-emerald-50 p-4 text-emerald-900 animate-fade-in"
+                      : "rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-emerald-200 animate-fade-in"
                   }
                 >
-                  ¡Gracias por tu mensaje! Se ha abierto WhatsApp con tus datos
-                  para brindarte atención inmediata, o también puedes escribirnos
-                  directamente a{" "}
-                  <a
-                    href={`mailto:${siteConfig.contact.email}`}
-                    className="underline"
-                  >
-                    {siteConfig.contact.email}
-                  </a>
-                  .
-                </p>
+                  <div className="flex items-start gap-3">
+                    <svg
+                      className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <div>
+                      <p className="text-sm font-semibold">
+                        ¡Mensaje enviado con éxito!
+                      </p>
+                      <p className="mt-1 text-xs leading-relaxed opacity-90">
+                        Hemos recibido tu solicitud y un asesor de Constructora Macadam se pondrá en contacto contigo a la brevedad.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {status === "error" && (
+                <div
+                  role="alert"
+                  className={
+                    isLight
+                      ? "rounded-2xl border border-rose-600/30 bg-rose-50 p-4 text-rose-900 animate-fade-in"
+                      : "rounded-2xl border border-rose-500/40 bg-rose-500/10 p-4 text-rose-200 animate-fade-in"
+                  }
+                >
+                  <div className="flex items-start gap-3">
+                    <svg
+                      className="mt-0.5 h-5 w-5 shrink-0 text-rose-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                      />
+                    </svg>
+                    <div>
+                      <p className="text-sm font-semibold">
+                        No se pudo enviar el mensaje
+                      </p>
+                      <p className="mt-1 text-xs leading-relaxed opacity-90">
+                        {errorMessage}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               )}
 
               <p

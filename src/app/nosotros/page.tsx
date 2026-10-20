@@ -35,17 +35,17 @@ export default function NosotrosPage() {
 
         <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="max-w-2xl pb-20 pt-32 sm:pb-28 sm:pt-36 lg:pb-32 lg:pt-44">
-            <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+            <p className="hero-enter-tag flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
               <span
                 aria-hidden="true"
                 className="rule-brand h-px w-8 rounded-full"
               />
               Desde 1992 · Saltillo, Coahuila
             </p>
-            <h1 className="mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-balance text-white sm:text-5xl">
+            <h1 className="hero-enter-title mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-balance text-white sm:text-5xl">
               Nosotros
             </h1>
-            <p className="mt-4 text-lg leading-relaxed text-ink-200 sm:text-xl">
+            <p className="hero-enter-desc mt-4 text-lg leading-relaxed text-ink-200 sm:text-xl">
               Consolidados en 1997 como Constructora Macadam, S.A. de C.V.,
               brindando soluciones integrales de construcción e inmobiliaria en
               Coahuila y Guanajuato.
@@ -58,7 +58,7 @@ export default function NosotrosPage() {
       <section id="constructora-macadam" className="bg-white py-14 sm:py-20 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
-            <div>
+            <div className="reveal-left">
               <div className="max-w-2xl">
                 <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                   <span
@@ -125,7 +125,7 @@ export default function NosotrosPage() {
             </div>
 
             {/* Right: Video & Visual Card */}
-            <div className="relative">
+            <div className="reveal-right relative">
               <div className="overflow-hidden rounded-3xl border border-ink-200 bg-brand-950 shadow-xl shadow-brand-950/10">
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <video
@@ -158,7 +158,7 @@ export default function NosotrosPage() {
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
           {/* Misión y Visión */}
           <div className="grid gap-8 lg:grid-cols-2">
-            <div className="rounded-3xl border border-ink-200 bg-white p-7 sm:p-9">
+            <div className="reveal-left rounded-3xl border border-ink-200 bg-white p-7 sm:p-9">
               <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                 <span
                   aria-hidden="true"
@@ -176,7 +176,7 @@ export default function NosotrosPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-ink-200 bg-white p-7 sm:p-9">
+            <div className="reveal-right rounded-3xl border border-ink-200 bg-white p-7 sm:p-9">
               <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                 <span
                   aria-hidden="true"
@@ -197,7 +197,7 @@ export default function NosotrosPage() {
 
           {/* Valores */}
           <div className="mt-16 lg:mt-20">
-            <div className="max-w-3xl">
+            <div className="reveal max-w-3xl">
               <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
                 <span
                   aria-hidden="true"
@@ -214,23 +214,31 @@ export default function NosotrosPage() {
             </div>
 
             <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {aboutData.valores.map((valor) => (
-                <li
-                  key={valor.title}
-                  className="group rounded-2xl border border-ink-200 bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lg hover:shadow-brand-950/5"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="rule-brand block h-1 w-8 rounded-full transition-all duration-300 group-hover:w-12"
-                  />
-                  <h3 className="mt-4 text-base font-semibold text-ink-950">
-                    {valor.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-600">
-                    {valor.description}
-                  </p>
-                </li>
-              ))}
+              {aboutData.valores.map((valor, idx) => {
+                const delayClass =
+                  idx % 3 === 0
+                    ? "delay-100"
+                    : idx % 3 === 1
+                    ? "delay-200"
+                    : "delay-300";
+                return (
+                  <li
+                    key={valor.title}
+                    className={`reveal-scale ${delayClass} group rounded-2xl border border-ink-200 bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lg hover:shadow-brand-950/5`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="rule-brand block h-1 w-8 rounded-full transition-all duration-300 group-hover:w-12"
+                    />
+                    <h3 className="mt-4 text-base font-semibold text-ink-950">
+                      {valor.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-ink-600">
+                      {valor.description}
+                    </p>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

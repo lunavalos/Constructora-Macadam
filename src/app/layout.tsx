@@ -4,6 +4,8 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+import { Preloader } from "@/components/Preloader";
+import { ScrollAnimationProvider } from "@/components/ScrollAnimationProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,7 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={poppins.variable}>
-      <body className="flex min-h-screen flex-col bg-white text-ink-950 antialiased">
+      <body className="flex min-h-screen flex-col bg-white text-ink-950 antialiased selection:bg-brand-500 selection:text-white">
+        <Preloader />
+        <ScrollAnimationProvider />
         <a
           href="#contenido"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-brand-800 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
