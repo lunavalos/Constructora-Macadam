@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { nombre, email, telefono, interes, mensaje } = body;
+    const { nombre, email, telefono, interes, mensaje, recaptchaToken } = body;
 
     // Validaciones básicas
     if (!nombre || !nombre.trim()) {
@@ -26,6 +26,79 @@ export async function POST(request: Request) {
         { error: "Por favor, escribe un mensaje." },
         { status: 400 }
       );
+    }
+
+    // Verificación de seguridad con Google reCAPTCHA
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+    if (recaptchaSecret) {
+      if (!recaptchaToken) {
+        return NextResponse.json(
+          {
+            error:
+              "No se completó la verificación de seguridad reCAPTCHA. Por favor recarga e intenta de nuevo.",
+          },
+          { status: 400 }
+        );
+      }
+
+      try {
+        const verifyParams = new URLSearchParams({
+          secret: recaptchaSecret,
+          response: recaptchaToken,
+        });
+
+        const verifyRes = await fetch(
+          "https://www.google.com/recaptcha/api/siteverify",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: verifyParams.toString(),
+          }
+        );
+
+        const verifyData = await verifyRes.json();
+
+        // En reCAPTCHA v3, score va de 0.0 (bot) a 1.0 (humano)
+        if (!verifyData.success) {
+          // En desarrollo local, Google puede arrojar 'browser-error' si localhost no está registrado en la consola de Google
+          const isDevBrowserError =
+            process.env.NODE_ENV === "development" &&
+            Array.isArray(verifyData["error-codes"]) &&
+            verifyData["error-codes"].includes("browser-error");
+
+          if (isDevBrowserError) {
+            console.warn(
+              "reCAPTCHA: aviso en desarrollo ('browser-error' permitido para pruebas locales):",
+              verifyData
+            );
+          } else {
+            console.warn("reCAPTCHA sospechoso o fallido:", verifyData);
+            return NextResponse.json(
+              {
+                error:
+                  "La verificación de seguridad detectó actividad automatizada inusual. Por favor intenta más tarde o comunícate vía WhatsApp.",
+              },
+              { status: 403 }
+            );
+          }
+        } else if (
+          typeof verifyData.score === "number" &&
+          verifyData.score < 0.4
+        ) {
+          console.warn("reCAPTCHA con score bajo (posible bot):", verifyData);
+          return NextResponse.json(
+            {
+              error:
+                "La verificación de seguridad detectó actividad automatizada inusual. Por favor intenta más tarde o comunícate vía WhatsApp.",
+            },
+            { status: 403 }
+          );
+        }
+      } catch (recaptchaErr) {
+        console.error("Error al validar reCAPTCHA con Google:", recaptchaErr);
+      }
     }
 
     const host = process.env.SMTP_HOST || "mail.cmacadam.com";

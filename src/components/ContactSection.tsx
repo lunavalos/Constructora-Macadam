@@ -3,8 +3,18 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { siteConfig } from "@/lib/site-data";
 import { whatsappUrl } from "@/lib/utils";
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (cb: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
+  }
+}
 
 export function ContactSection({
   id = "contacto",
@@ -28,6 +38,8 @@ export function ContactSection({
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -35,10 +47,35 @@ export function ContactSection({
     setErrorMessage("");
 
     try {
+      let recaptchaToken = "";
+      if (
+        recaptchaSiteKey &&
+        typeof window !== "undefined" &&
+        window.grecaptcha
+      ) {
+        try {
+          await new Promise<void>((resolve) => {
+            window.grecaptcha?.ready(() => resolve());
+          });
+          recaptchaToken = await window.grecaptcha.execute(recaptchaSiteKey, {
+            action: "contacto",
+          });
+        } catch (tokenErr) {
+          console.warn("No se pudo obtener el token de reCAPTCHA:", tokenErr);
+        }
+      }
+
       const res = await fetch("/api/contacto", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, email, telefono, interes, mensaje }),
+        body: JSON.stringify({
+          nombre,
+          email,
+          telefono,
+          interes,
+          mensaje,
+          recaptchaToken,
+        }),
       });
 
       const data = await res.json();
@@ -556,10 +593,51 @@ export function ContactSection({
                 </Link>
                 .
               </p>
+
+              <p
+                className={`text-[0.6875rem] leading-relaxed ${
+                  isLight ? "text-ink-400" : "text-ink-400"
+                }`}
+              >
+                Protegido por Google reCAPTCHA. Aplican la{" "}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={
+                    isLight
+                      ? "underline hover:text-brand-700"
+                      : "underline hover:text-white"
+                  }
+                >
+                  Política de Privacidad
+                </a>{" "}
+                y los{" "}
+                <a
+                  href="https://policies.google.com/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={
+                    isLight
+                      ? "underline hover:text-brand-700"
+                      : "underline hover:text-white"
+                  }
+                >
+                  Términos del Servicio
+                </a>{" "}
+                de Google.
+              </p>
             </form>
           </div>
         </div>
       </div>
+
+      {recaptchaSiteKey && (
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
+          strategy="lazyOnload"
+        />
+      )}
     </section>
   );
 }
