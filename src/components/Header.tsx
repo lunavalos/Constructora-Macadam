@@ -24,13 +24,16 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setMenuOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     if (!menuOpen) return;
     const prevOverflow = document.body.style.overflow;
+    const openBtn = openBtnRef.current;
     document.body.style.overflow = "hidden";
     closeBtnRef.current?.focus();
 
@@ -59,7 +62,7 @@ export function Header() {
     return () => {
       document.body.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKeyDown);
-      openBtnRef.current?.focus();
+      openBtn?.focus();
     };
   }, [menuOpen]);
 

@@ -12,8 +12,8 @@ export function Preloader() {
     // Check if user prefers reduced motion
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
-      setPhase("hidden");
-      return;
+      const timer = setTimeout(() => setPhase("hidden"), 0);
+      return () => clearTimeout(timer);
     }
 
     // Lock body scroll while preloader is active
