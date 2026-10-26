@@ -11,8 +11,8 @@ export const siteConfig = {
   contact: {
     phoneDisplay: "(844) 416 1100",
     phoneHref: "tel:+528444161100",
-    whatsappDisplay: "+52 844 211 1187",
-    whatsappNumber: "528442111187",
+    whatsappDisplay: "+52 56 6133 9770",
+    whatsappNumber: "525661339770",
     email: "contacto@cmacadam.com",
     postVentasEmail: "post-ventas@cmacadam.com",
     address: "Calle Mariano Abasolo 2300, Guanajuato, 25280 Saltillo, Coah.",
